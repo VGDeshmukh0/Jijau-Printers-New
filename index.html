@@ -662,16 +662,18 @@ if (typeof XLSX !== 'undefined' && !XLSX.writeFile) {
 <script>
 // Immediately activate correct tab before page renders
 (function(){
-  var p = new URLSearchParams(window.location.search).get('view') || 'school';
+  var p = new URLSearchParams(window.location.search).get('view') || 'both';
   document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('.tab-panel').forEach(function(el){ el.style.display='none'; });
     document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
-    var panel = document.getElementById('panel-'+p);
-    var btn = document.querySelector('.tab-btn.'+p);
+    var activePanel = (p === 'admin') ? 'admin' : 'school';
+    var panel = document.getElementById('panel-'+activePanel);
+    var btn = document.querySelector('.tab-btn.'+activePanel);
     if(panel) panel.style.display='block';
     if(btn){ btn.classList.add('active'); }
     if(p==='school') { var ab=document.querySelector('.tab-btn.admin'); if(ab) ab.style.display='none'; }
     if(p==='admin')  { var sb=document.querySelector('.tab-btn.school'); if(sb) sb.style.display='none'; }
+    // p === 'both' → दोन्ही Tabs दाखवा, काहीही लपवू नका
   });
 })();
 </script>
@@ -1957,10 +1959,12 @@ function deleteAdminAccount(idx) {
 
 function adminLogout() {
   adminLoggedIn = false;
+  currentAdminUser = null;
   document.getElementById('adminLoginView').style.display = 'block';
   document.getElementById('adminDashboard').style.display = 'none';
   document.getElementById('adminUser').value = '';
   document.getElementById('adminPass').value = '';
+  applyYearLockUI();
 }
 
 // ============================================================
