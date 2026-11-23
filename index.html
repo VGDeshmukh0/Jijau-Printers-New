@@ -1344,9 +1344,7 @@ function buildOrderTable() {
   if (w17.previousElementSibling) w17.previousElementSibling.style.display = isPractice ? 'none' : '';
   const lbl = w810.previousElementSibling && w810.previousElementSibling.querySelector('span');
   if (lbl) lbl.textContent = isPractice ? '🎓 Class 10' : '🔴 Classes 8 to 10';
-  const isPractice = selectedExam === 'Class 10 Practice Exam';
-  document.getElementById('wrap1to7').style.display = isPractice ? 'none' : 'block';
-  document.getElementById('title8to10').textContent = isPractice ? '🎓 Class 10' : '🔴 Classes 8 to 10';
+
 
   const mmH = (cls) => getRate(selectedExam, cls, 'mm');
   const smH = (cls) => getRate(selectedExam, cls, 'sm');
