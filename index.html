@@ -2668,13 +2668,15 @@ window.onload = async () => {
   await loadAdminAccounts();
   await loadYearLock();
 
-  // URL-based view routing
-  if (VIEW_MODE === 'school') {
-    document.querySelector('.tab-btn.admin').style.display = 'none';
-    document.querySelector('.tab-btn.school').click();
-  } else if (VIEW_MODE === 'admin') {
+   // URL-based view routing
+  if (VIEW_MODE === 'admin') {
     document.querySelector('.tab-btn.school').style.display = 'none';
     switchTab('admin');
+  } else if (VIEW_MODE === 'school') {
+    document.querySelector('.tab-btn.admin').style.display = 'none';
+    switchTab('school');
+  } else {
+    switchTab('school');
   }
 
   // Load from cloud
