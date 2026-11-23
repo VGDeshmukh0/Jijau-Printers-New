@@ -821,102 +821,37 @@ if (typeof XLSX !== 'undefined' && !XLSX.writeFile) {
         </div>
 
         <!-- Classes 1–7 -->
-        <div class="section-divider">
-          <span>🔵 Classes 1 to 7</span>
-        </div>
-        <div class="order-table-wrapper">
-          <table class="order-table" id="table1to7">
-            <thead>
-              <tr>
-                <th>Class</th>
-                <th>Marathi Medium</th>
-                <th>Semi Medium</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody id="tbody1to7"></tbody>
-            <tfoot>
-              <tr>
-                <td>📊 Sub Total (1–7)</td>
-                <td style="text-align:center;font-weight:700;" id="subMM1to7">0</td>
-                <td style="text-align:center;font-weight:700;" id="subSM1to7">0</td>
-                <td style="text-align:center;font-weight:700;color:var(--green);" id="subT1to7">0</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+<div id="wrap1to7">
+  <div class="section-divider">
+    <span>🔵 Classes 1 to 7</span>
+  </div>
+  <div class="order-table-wrapper">
+    <table class="order-table" id="table1to7">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Marathi Medium</th>
+          <th>Semi Medium</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="tbody1to7"></tbody>
+      <tfoot>
+        <tr>
+          <td>📊 Sub Total (1–7)</td>
+          <td style="text-align:center;font-weight:700;" id="subMM1to7">0</td>
+          <td style="text-align:center;font-weight:700;" id="subSM1to7">0</td>
+          <td style="text-align:center;font-weight:700;color:var(--green);" id="subT1to7">0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
 
-        <!-- Classes 8–10 -->
-        <div class="section-divider" style="margin-top:24px;">
-          <span>🔴 Classes 8 to 10</span>
-        </div>
-        <div class="order-table-wrapper">
-          <table class="order-table" id="table8to10">
-            <thead>
-              <tr>
-                <th>Class</th>
-                <th>Marathi Medium</th>
-                <th>Semi Medium</th>
-                <th>Sanskrit</th>
-                <th>Hindi</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody id="tbody8to10"></tbody>
-            <tfoot>
-              <tr>
-                <td>📊 Sub Total (8–10)</td>
-                <td style="text-align:center;font-weight:700;" id="subMM8to10">0</td>
-                <td style="text-align:center;font-weight:700;" id="subSM8to10">0</td>
-                <td style="text-align:center;font-weight:700;" id="subSK8to10">0</td>
-                <td style="text-align:center;font-weight:700;" id="subHI8to10">0</td>
-                <td style="text-align:center;font-weight:700;color:var(--green);" id="subT8to10">0</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        <!-- Grand Total -->
-        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
-          <div class="bill-total-box" style="flex:1; min-width:200px;">
-            <div class="label">Grand Total Papers</div>
-            <div class="amount" id="grandTotalPapers">0</div>
-          </div>
-          <div class="bill-total-box" style="flex:1; min-width:200px; background:linear-gradient(135deg,#E3F2FD,#BBDEFB); border-color:var(--blue);">
-            <div class="label">Estimated Amount</div>
-            <div class="amount" style="color:var(--blue);">₹<span id="estimatedAmount">0</span></div>
-          </div>
-        </div>
-
-        <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
-          <button class="btn btn-primary" onclick="submitOrder()">📤 Submit Order</button>
-          <button class="btn btn-outline" onclick="resetSchoolForm()">🔄 Reset Form</button>
-        </div>
-      </div>
-    </div>
-  </div><!-- end school panel -->
-
-  <!-- ============================== ADMIN TAB ============================== -->
-  <div class="tab-panel" id="panel-admin">
-
-    <!-- ADMIN LOGIN FORM -->
-    <div id="adminLoginView">
-      <div class="admin-login-box">
-        <div class="admin-lock-icon">🔐</div>
-        <h2>Admin Access</h2>
-        <p>This panel is restricted to authorized personnel only.</p>
-        <div class="form-group" style="margin-bottom:16px;">
-          <label>Username</label>
-          <input type="text" class="form-control admin-focus" id="adminUser" placeholder="Enter username">
-        </div>
-        <div class="form-group" style="margin-bottom:24px;">
-          <label>Password</label>
-          <input type="password" class="form-control admin-focus" id="adminPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()">
-        </div>
-        <button class="btn btn-blue" style="width:100%; justify-content:center;" onclick="adminLogin()">🔓 Login to Admin Panel</button>
-        <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--mid-gray);">Default: admin / admin123</p>
-      </div>
-    </div>
+<!-- Classes 8–10 -->
+<div class="section-divider" style="margin-top:24px;">
+  <span id="title8to10">🔴 Classes 8 to 10</span>
+</div>
 
     <!-- ADMIN DASHBOARD -->
     <div id="adminDashboard" style="display:none;">
@@ -1126,6 +1061,8 @@ let currentAdminUser = null;
 const EXAM_TYPES = ['First Unit Test','First Semester Exam','Second Unit Test','Second Semester Exam','Class 10 Practice Exam'];
 const CLASSES_LOW = [1,2,3,4,5,6,7];
 const CLASSES_HIGH = [8,9,10];
+function activeLow()  { return selectedExam === 'Class 10 Practice Exam' ? [] : CLASSES_LOW; }
+function activeHigh() { return selectedExam === 'Class 10 Practice Exam' ? [10] : CLASSES_HIGH; }
 
 let currentYear = '2025-26';
 let selectedExam = null;
@@ -1394,7 +1331,10 @@ function selectExam(examType) {
 }
 
 function buildOrderTable() {
-  // Class 1–7 table
+  const isPractice = selectedExam === 'Class 10 Practice Exam';
+  document.getElementById('wrap1to7').style.display = isPractice ? 'none' : 'block';
+  document.getElementById('title8to10').textContent = isPractice ? '🎓 Class 10' : '🔴 Classes 8 to 10';
+
   const mmH = (cls) => getRate(selectedExam, cls, 'mm');
   const smH = (cls) => getRate(selectedExam, cls, 'sm');
 
@@ -1406,7 +1346,7 @@ function buildOrderTable() {
   `;
   const tbody17 = document.getElementById('tbody1to7');
   tbody17.innerHTML = '';
-  CLASSES_LOW.forEach(cls => {
+  activeLow().forEach(cls => {
     const mm = mmH(cls), sm = smH(cls);
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -1428,7 +1368,7 @@ function buildOrderTable() {
   `;
   const tbody810 = document.getElementById('tbody8to10');
   tbody810.innerHTML = '';
-  CLASSES_HIGH.forEach(cls => {
+  activeHigh().forEach(cls => {
     const mm = mmH(cls), sm = smH(cls);
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -1442,21 +1382,17 @@ function buildOrderTable() {
     tbody810.appendChild(tr);
   });
   calcTotals();
-}
-
-function getVal(inputs, cls, type) {
+}inputs, cls, type) {
   const el = [...inputs].find(i => +i.dataset.class === cls && i.dataset.type === type);
   return el ? (+el.value || 0) : 0;
 }
-
 function calcTotals() {
   const inputs = document.querySelectorAll('#tbody1to7 input, #tbody8to10 input');
   let sumMM17=0, sumSM17=0;
-  CLASSES_LOW.forEach(cls => {
+  activeLow().forEach(cls => {
     const mm = getVal(inputs, cls, 'mm');
     const sm = getVal(inputs, cls, 'sm');
-    const t = mm + sm;
-    document.getElementById(`total_${cls}`).textContent = t;
+    document.getElementById(`total_${cls}`).textContent = mm + sm;
     sumMM17 += mm; sumSM17 += sm;
   });
   document.getElementById('subMM1to7').textContent = sumMM17;
@@ -1464,13 +1400,12 @@ function calcTotals() {
   document.getElementById('subT1to7').textContent = sumMM17 + sumSM17;
 
   let sumMM810=0, sumSM810=0, sumSK810=0, sumHI810=0;
-  CLASSES_HIGH.forEach(cls => {
+  activeHigh().forEach(cls => {
     const mm = getVal(inputs, cls, 'mm');
     const sm = getVal(inputs, cls, 'sm');
     const sk = getVal(inputs, cls, 'sk');
     const hi = getVal(inputs, cls, 'hi');
-    const t = mm + sm; // Total = MM + SM only
-    document.getElementById(`total_${cls}`).textContent = t;
+    document.getElementById(`total_${cls}`).textContent = mm + sm; // Total = MM + SM only
     sumMM810 += mm; sumSM810 += sm; sumSK810 += sk; sumHI810 += hi;
   });
   document.getElementById('subMM8to10').textContent = sumMM810;
@@ -1479,12 +1414,10 @@ function calcTotals() {
   document.getElementById('subHI8to10').textContent = sumHI810;
   document.getElementById('subT8to10').textContent = sumMM810 + sumSM810;
 
-  const grand = (sumMM17 + sumSM17) + (sumMM810 + sumSM810);
-  document.getElementById('grandTotalPapers').textContent = grand;
+  document.getElementById('grandTotalPapers').textContent = (sumMM17 + sumSM17) + (sumMM810 + sumSM810);
 
-  // Amount: each class uses its group's MM/SM rate
   let totalAmount = 0;
-  [...CLASSES_LOW, ...CLASSES_HIGH].forEach(cls => {
+  [...activeLow(), ...activeHigh()].forEach(cls => {
     const mm = getVal(inputs, cls, 'mm');
     const sm = getVal(inputs, cls, 'sm');
     totalAmount += mm * getRate(selectedExam, cls, 'mm');
@@ -1496,7 +1429,7 @@ function calcTotals() {
 function collectOrderData() {
   const inputs = document.querySelectorAll('#tbody1to7 input, #tbody8to10 input');
   const classes = {};
-  [...CLASSES_LOW, ...CLASSES_HIGH].forEach(cls => {
+  [...activeLow(), ...activeHigh()].forEach(cls => {
     const mm = getVal(inputs, cls, 'mm');
     const sm = getVal(inputs, cls, 'sm');
     const sk = cls >= 8 ? getVal(inputs, cls, 'sk') : 0;
@@ -1505,8 +1438,7 @@ function collectOrderData() {
   });
   return classes;
 }
-
-function submitOrder() {
+ {
   const schoolName = document.getElementById('schoolName').value.trim();
   const place = document.getElementById('schoolPlace').value.trim();
   const headName = document.getElementById('headName').value.trim();
