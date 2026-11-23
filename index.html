@@ -1059,8 +1059,8 @@ const DEFAULT_ADMIN = { username: 'admin', password: 'Pps8840@', name: 'Super Ad
 let adminAccounts = [];
 let currentAdminUser = null;
 const EXAM_TYPES = ['First Unit Test','First Semester Exam','Second Unit Test','Second Semester Exam','Class 10 Practice Exam'];
-const CLASSES_LOW = [1,2,3,4,5,6,7];
-const CLASSES_HIGH = [8,9,10];
+let CLASSES_LOW = [1,2,3,4,5,6,7];
+let CLASSES_HIGH = [8,9,10];
 function activeLow()  { return selectedExam === 'Class 10 Practice Exam' ? [] : CLASSES_LOW; }
 function activeHigh() { return selectedExam === 'Class 10 Practice Exam' ? [10] : CLASSES_HIGH; }
 
@@ -1272,9 +1272,12 @@ function saveData(d) { saveYearData(currentYear, d); }
 // ============================================================
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
   document.querySelector(`.tab-btn.${tab}`).classList.add('active');
-  document.getElementById(`panel-${tab}`).classList.add('active');
+  const panel = document.getElementById(`panel-${tab}`);
+  panel.classList.add('active');
+  panel.style.display = 'block';
+}
 }
 
 // ============================================================
@@ -1331,6 +1334,16 @@ function selectExam(examType) {
 }
 
 function buildOrderTable() {
+  // Practice Exam: फक्त Class 10, बाकी exams: सर्व वर्ग
+  const isPractice = getExamCategory(selectedExam) === 'practice';
+  CLASSES_LOW = isPractice ? [] : [1,2,3,4,5,6,7];
+  CLASSES_HIGH = isPractice ? [10] : [8,9,10];
+  const w17 = document.getElementById('table1to7').closest('.order-table-wrapper');
+  const w810 = document.getElementById('table8to10').closest('.order-table-wrapper');
+  w17.style.display = isPractice ? 'none' : '';
+  if (w17.previousElementSibling) w17.previousElementSibling.style.display = isPractice ? 'none' : '';
+  const lbl = w810.previousElementSibling && w810.previousElementSibling.querySelector('span');
+  if (lbl) lbl.textContent = isPractice ? '🎓 Class 10' : '🔴 Classes 8 to 10';
   const isPractice = selectedExam === 'Class 10 Practice Exam';
   document.getElementById('wrap1to7').style.display = isPractice ? 'none' : 'block';
   document.getElementById('title8to10').textContent = isPractice ? '🎓 Class 10' : '🔴 Classes 8 to 10';
