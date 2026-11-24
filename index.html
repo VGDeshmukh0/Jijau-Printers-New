@@ -1248,25 +1248,6 @@ function getRate(examType, cls, medium) {
   if (stored !== undefined) return stored;
   return DEFAULT_RATES[cat]?.[grpKey]?.[medium] || 0;
 }
-
-function getYearKey(year) { return `jijau_bin_${year.replace('-','_')}`; }
-
-function getYearData(year) {
-  const key = `jijau_cache_${year.replace('-','_')}`;
-  try { return JSON.parse(localStorage.getItem(key)) || { orders: [], rates: JSON.parse(JSON.stringify(DEFAULT_RATES)) }; }
-  catch(e) { return { orders: [], rates: JSON.parse(JSON.stringify(DEFAULT_RATES)) }; }
-}
-
-function saveYearData(year, data) {
-  const key = `jijau_cache_${year.replace('-','_')}`;
-  localStorage.setItem(key, JSON.stringify(data));
-  // async cloud save (fire and forget)
-  cloudSave(year, data).catch(()=>{});
-}
-
-function getData() { return getYearData(currentYear); }
-function saveData(d) { saveYearData(currentYear, d); }
-
 // ============================================================
 // TABS
 // ============================================================
