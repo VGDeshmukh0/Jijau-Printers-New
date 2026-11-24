@@ -1556,7 +1556,7 @@ function renderBillPreview(order) {
   if (wm) wm.remove();
   const watermarkDiv = document.createElement('div');
   watermarkDiv.className = 'watermark-overlay';
-  watermarkDiv.innerHTML = Array(24).fill(`${order.schoolName} | ${order.mobile}`).map(t=>`<span>${t}</span>`).join('');
+ watermarkDiv.innerHTML = Array(24).fill(`<span>${order.schoolName} | ${order.mobile}</span>`).join('');
   const billContainerEl = document.querySelector('#billPreview .bill-container');
   if (billContainerEl) billContainerEl.appendChild(watermarkDiv);
 }
